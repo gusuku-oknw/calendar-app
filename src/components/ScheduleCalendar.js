@@ -1,69 +1,41 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import Flicking from "@egjs/react-flicking";
 
-const PopupMenu = ({ onClose, onContentChange }) => {
-  const popupRef = useRef(null); // Create a ref
-  useEffect(() => {
-    // Define the click handler
-    const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    // Attach the click handler
-    document.addEventListener('mousedown', handleClickOutside);
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onClose]);
-
-  const pupupStyle = {
-    position: 'fixed',
-    top: '40%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    background: '#fff',
-    padding: '9rem',
-    borderRadius: '1rem',
-    zIndex: 1000
-  }
-  const buttonStyle = {
-    width: '100px',
-    height: '40px',
-    borderradius: '5px',
-    border: 'none',
-    padding: '0 16px',
-    borderRadius: 8,
-    color: '#fff',
-    background: '#639',
-  }
-
-  const handleContentChange = (content) => {
-    onContentChange(content);
-    onClose();
-  };
-
-  return (
-    <div style={pupupStyle} ref={popupRef}>
-      {/* <button onClick={() => handleContentChange('講義')} style={buttonStyle}>講義</button> */}
-      <button onClick={() => handleContentChange('バイト')} style={buttonStyle}>バイト</button>
-      <button onClick={onClose}>Close</button>
-    </div>
-  );
-};
+import PopupMenu from './PopupMenu'
 
 const Calendar = () => {
-  const [cells, setCells] = useState([
+    // カレンダーセルの状態を管理するステート
+    const [page, setPage] = useState(0);
+    const [cells, setCells] = useState(initialCells);
+    const [popupVisible, setPopupVisible] = useState(false);
+    const [selectedCell, setSelectedCell] = useState(null);
+    
+  const initialCells = [
     [{ color: '#E65032', content: '講義' }, { color: '#E65032', content: '講義' },{ color: '#A8A7A7', content: 'NULL' }, { color: '#A8A7A7', content: 'NULL' }, { color: '#A8A7A7', content: 'NULL' }],
     [{ color: '#A8A7A7', content: 'NULL' }, { color: '#53B09A', content: 'バイト' }],
     [{ color: '#A8A7A7', content: 'NULL' }, { color: '#53B09A', content: 'バイト' }],
     [{ color: '#E65032', content: '講義' }, { color: '#E65032', content: '講義' },{ color: '#A8A7A7', content: 'NULL' }, { color: '#A8A7A7', content: 'NULL' }, { color: '#A8A7A7', content: 'NULL' }],
     [{ color: '#E65032', content: '講義' }, { color: '#E65032', content: '講義' },{ color: '#A8A7A7', content: 'NULL' }, { color: '#A8A7A7', content: 'NULL' }, { color: '#A8A7A7', content: 'NULL' }],
-  ]);
-  const [popupVisible, setPopupVisible] = useState(false);
-  const [selectedCell, setSelectedCell] = useState(null);
+  ];
+
+  // 行列の反転
+  const reverseMatrix = (matrix) => {
+    const rows = matrix.length;
+    const columns = matrix[0].length;
+
+    // 新しい行列を生成し、行と列を入れ替える
+    const transposedMatrix = Array.from({ length: columns }, () =>
+      Array.from({ length: rows })
+    );
+
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < columns; j++) {
+        transposedMatrix[j][i] = matrix[i][j];
+      }
+    }
+
+    return transposedMatrix;
+  };
 
   const CONTENT_COLOR_MAP = {
     '講義': '#E65032',
@@ -71,9 +43,9 @@ const Calendar = () => {
     'NULL': '#A8A7A7'
   };
 
-  useEffect(() => {
-    // カレンダーが5x5になるようにセル情報を埋める
-    const filledCells = [...cells];
+  // カレンダーセルを埋めるための関数
+  const fillCells = (currentCells) => {
+    const filledCells = [...currentCells];
     while (filledCells.length < 5) {
       const newRow = Array(5).fill({ color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' });
       filledCells.push(newRow);
@@ -83,11 +55,35 @@ const Calendar = () => {
         row.push({ color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' });
       }
     });
-    setCells(filledCells);
+    return filledCells;
+  };
+  
+  // バックエンドからデータを取得する関数
+  const fetchDataFromBackend = () => {
+    // バックエンドのAPIエンドポイントを設定
+    const backendApiUrl = '/get_calendar_data';
+
+    fetch(backendApiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        // バックエンドから受け取ったデータをカレンダーセルに反映するロジック
+        if (data && data.cells) {
+          setCells(reverseMatrix(fillCells(data.cells))); // カレンダーセルのデータを更新
+        }
+      })
+      .catch((error) => {
+        console.error('バックエンドからのデータ取得エラー:', error);
+      });
+  };
+
+  useEffect(() => {
+    // 初回レンダリング時にカレンダーセルを埋める
+    setCells(reverseMatrix(fillCells(initialCells))); // セル行列を反転してセット
+    // バックエンドから取得
+    fetchDataFromBackend();
   }, []);
 
   const handleCellClick = (rowIndex, cellIndex) => {
-    // セルの行と列の情報をバックエンドに送信
     fetch('/process_cell_info', {
       method: 'POST',
       headers: {
@@ -103,9 +99,11 @@ const Calendar = () => {
       .catch((error) => {
         console.error('エラー:', error);
       });
-    };
+  };
 
-    const handleContentChange = (content) => {
+
+  const handleContentChange = (content) => {
+    if (selectedCell) {
       const color = CONTENT_COLOR_MAP[content];
       const newCells = cells.map((row, rIndex) => {
         return row.map((cell, cIndex) => {
@@ -116,19 +114,20 @@ const Calendar = () => {
         });
       });
       setCells(newCells);
-    };
+    }
+  };
 
   const closePopup = () => {
     setPopupVisible(false);
   };
 
-  // カレンダーが5x5になるようにセル情報を埋める
-  while (cells.length < 5) {
-    const newRow = Array(5).fill({ color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' });
-    cells.push(newRow);
-  }
+  const handlePageChange = (event) => {
+    // ページが変更されたときにセル行列を更新
+    setPage(event.index);
+  };
 
   const marginpx = '2px'
+
   const cellStyle = {
     flex: '1',
     width: 77.34,
@@ -140,10 +139,11 @@ const Calendar = () => {
   };
   
   return (
+    <Flicking horizontal={false} onChange={handlePageChange}> // ページが変更されたときのコールバック
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-      <div style={{width: '90%', height: '100%', paddingBottom: 10, background: '#ffffff', borderRadius: 30, overflow: 'hidden', border: '1px white solid', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', display: 'flex', flexWrap: 'wrap'}}>
+      <div style={{width: '90%', height: '100%', background: '#ffffff', borderRadius: 30, overflow: 'hidden', border: '1px white solid', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', display: 'flex', flexWrap: 'wrap'}}>
         {cells.map((row, rowIndex) => (
-          <div key={rowIndex} style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: rowIndex === 0 ? 0 : marginpx }}>
+          <div key={rowIndex} style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: 0 ,marginBottom: 0}}>
             {row.map((cell, cellIndex) => (
               <div
                 key={cellIndex}
@@ -163,6 +163,7 @@ const Calendar = () => {
       </div>
       <div style={{ height: '700px', background: '#000000' }}></div> {/* 新しく追加したdivで下に余白を設定 */}
     </div>
+    </Flicking>
   );
   
 }

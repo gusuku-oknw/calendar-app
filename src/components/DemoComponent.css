@@ -1,0 +1,16 @@
+.flicking-viewport {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100px; /* この値は実際の内容に合わせて変更してください */
+  }
+  
+  .flicking-camera {
+    will-change: transform;
+  }
+  
+  .weather-panel {
+    width: 100%;
+    height: 100px; /* この値は実際の内容に合わせて変更してください */
+  }
+  

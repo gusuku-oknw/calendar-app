@@ -4,7 +4,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import ScheduleCalendar from './components/ScheduleCalendar';
-import Home from './components/Home'
+import Home from './components/DemoComponent'
 import GlobalMenu from './components/GlobalMenu';
 
 function App() {
