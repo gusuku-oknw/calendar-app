@@ -11,6 +11,7 @@ import PopupMenu from './PopupMenu';
         borderRadius: 3,
         cursor: 'pointer',
     };
+
     export default function CalendarPage({cells, marginpx, handleCellClick, handleContentChange, popupVisible, closePopup}) {
     return (
         <>
@@ -23,12 +24,15 @@ import PopupMenu from './PopupMenu';
                                 ...cellStyle,
                                 marginLeft: cellIndex === 0 ? 0 : marginpx,
                                 background: cell.color,
+                                color: '#ffffff',
+                                writingMode: 'horizontal-tb',
+                                textOrientation: 'upright',
                                 textAlign: 'center',
                                 lineHeight: `${cellStyle.height}px`,
                             }}
                             onClick={() => handleCellClick(rowIndex, cellIndex)}
                         >
-                            {cell.content !== 'NUL' ? cell.content : ""}
+                            {cell.content !== 'NULL' ? cell.content : ""}
                         </div>
                     ))}
                 </div>

@@ -29,6 +29,7 @@ const GlobalMenu = () => {
 
       const styles = {
         globalMenu: {
+            zIndex: 1000,
             position: 'fixed',
             bottom: 0,
             left: 0,
