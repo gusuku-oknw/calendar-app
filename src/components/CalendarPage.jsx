@@ -2,7 +2,6 @@ import React from 'react';
 import Flicking from "@egjs/react-flicking";
 import PopupMenu from './PopupMenu';
 
-const CalendarPage = ({ cells, marginpx, handleCellClick, handleContentChange, popupVisible, closePopup }) => {
     const cellStyle = {
         flex: '1',
         width: 77.34,
@@ -12,12 +11,10 @@ const CalendarPage = ({ cells, marginpx, handleCellClick, handleContentChange, p
         borderRadius: 3,
         cursor: 'pointer',
     };
-
+    export default function CalendarPage({cells, marginpx, handleCellClick, handleContentChange, popupVisible, closePopup}) {
     return (
         <>
-        {/* <Flicking> */}
             {cells.map((row, rowIndex) => (
-                
                 <div key={rowIndex} style={{ display: 'flex' }}>
                     {row.map((cell, cellIndex) => (
                         <div
@@ -35,18 +32,8 @@ const CalendarPage = ({ cells, marginpx, handleCellClick, handleContentChange, p
                         </div>
                     ))}
                 </div>
-                
             ))}
             {popupVisible && <PopupMenu onClose={closePopup} onContentChange={handleContentChange} />}
-            {/* </Flicking> */}
         </>
     );
-    
 };
-
-export default CalendarPage;
-
-
-
-
-

@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "@egjs/flicking-plugins": "^4.7.1",
+    "@egjs/grid": "^1.14.2",
     "@egjs/react-flicking": "^4.11.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "@egjs/react-grid": "^1.15.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.16.0",
     "react-scripts": "^5.0.1",

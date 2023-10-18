@@ -1,48 +1,65 @@
-/* src/components/ScheduleCalendar.css */
-
-.schedule-calendar {
-  text-align: center;
+/* Flicking styles */
+.flicking {
+  width: 100%; /* Or any specific width */
+  overflow: hidden;
 }
 
-.table-container {
-  overflow-x: auto; /* モバイル表示時に横スクロールが可能になるように */
-  margin: 0 auto;
+.panel {
+  width: 100%; /* This will make each panel take full width of the Flicking container */
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+.grid-panel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px; 
 }
 
-th, td {
-  border: 1px solid #ccc;
+/* FrameGrid items */
+.item {
+  flex: 1; /* This makes items take equal width in the grid */
+  text-align: center; 
   padding: 10px;
-  min-width: 50px; /* モバイルでの最小幅を設定 */
+  box-sizing: border-box;
 }
 
-th {
-  background-color: #f0f0f0;
+/* Specific background and text color classes */
+.has-background-warning {
+  background-color: #f0ad4e; /* Sample color, can be adjusted */
+}
+.has-text-dark {
+  color: #333; /* Sample color */
 }
 
-.lecture-cell {
-  background-color: #FF1493;
+.has-background-danger {
+  background-color: #d9534f; /* Sample color */
+}
+.has-text-white {
+  color: #fff;
 }
 
-.empty-cell {
-  background-color: #f0f0f0;
-  color: #ccc;
+.has-background-info {
+  background-color: #5bc0de; /* Sample color */
 }
 
-.time-cell {
-  font-weight: bold;
+.has-background-success {
+  background-color: #5cb85c; /* Sample color */
 }
 
-@media (max-width: 375px) {
-  .schedule-calendar.mobile table th,
-  .schedule-calendar.mobile table td {
-    padding: 5px;
-    font-size: 12px;
-  }
+.has-background-grey {
+  background-color: #9e9e9e; /* Sample color */
 }
 
-/* 他のスタイリング */
+.has-background-light {
+  background-color: #f7f7f7; /* Sample color */
+}
+
+/* If you need a border or margin between FrameGrid items, you can adjust using the below rule */
+.grid-panel > .item {
+  border: 1px solid #ddd; /* Sample border */
+  margin-right: 5px;
+}
+
+.grid-panel > .item:last-child {
+  margin-right: 0; /* Removing margin from the last item */
+}
