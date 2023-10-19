@@ -10,9 +10,8 @@ const cellStyle = {
     borderRadius: 3,
     cursor: 'pointer',
 };
-
 export default function CalendarPage({
-    cells = [],  // cells のデフォルト値を空の配列として設定
+    cells = [],
     marginpx,
     handleCellClick,
     handleContentChange,
@@ -29,7 +28,7 @@ export default function CalendarPage({
                             style={{
                                 ...cellStyle,
                                 marginLeft: cellIndex === 0 ? 0 : marginpx,
-                                background: cell.color || '#000000',  // セルの背景色を動的に設定
+                                background: cell.color || '#000000',
                                 color: '#ffffff',
                                 writingMode: 'horizontal-tb',
                                 textOrientation: 'upright',
@@ -38,7 +37,7 @@ export default function CalendarPage({
                             }}
                             onClick={() => handleCellClick(rowIndex, cellIndex)}
                         >
-                            {cell.content !== 'NULL' ? cell.content : ""}
+                            {cell.content || ""}
                         </div>
                     ))}
                 </div>
@@ -46,5 +45,4 @@ export default function CalendarPage({
             {popupVisible && <PopupMenu onClose={closePopup} onContentChange={handleContentChange} />}
         </>
     );
-};
-
+}

@@ -7,6 +7,12 @@ import "@egjs/react-flicking/dist/flicking-inline.css";
 import PageWeek from './PageWeek';
 // import './ScheduleCalendar.css'
 
+const CONTENT_COLOR_MAP = {
+    '講義': '#E65032',
+    '2any': '#2B5B75',
+    'wish': '#5C8195',
+    'NULL': '#A8A7A7'
+  };
 // const defaultCalendarData = [
 //     // 1ページ目のデータ
 //     [
@@ -135,49 +141,40 @@ const defaultCalendarData = [
             }
             fetchData();
         }, []);
-
     // イベントをカレンダーセル情報に変換するヘルパー関数
     const eventToCells = (event) => {
-        const content = event.content || event.type; // contentが存在する場合はそれを使用し、存在しない場合はtypeを使用します。
-        switch (event.type) {
-            case '講義':
-                return { color: '#E65032', content: content };
-            case 'wish':
-                return { color: '#5C8195', content: content };
-            case '2any':
-                return { color: '#2B5B75', content: content };
-            case 'NULL':
-            default:
-                return { color: '#A8A7A7', content: 'NULL' };
-        }
-    };
-    
-    
-    const weekDataToCells = (weekData) => {
-        // weekDataが正しい形式であることを確認
-        if (!weekData || !Array.isArray(weekData.events)) {
-            console.error('Invalid weekData format:', weekData);
-            return [];
-        }
+    const content = event.content || event.type;
+    switch (event.type) {
+        case '講義':
+            return { color: CONTENT_COLOR_MAP['講義'], content: content };
+        case 'wish':
+            return { color: CONTENT_COLOR_MAP['wish'], content: content };
+        case '2any':
+            return { color: CONTENT_COLOR_MAP['2any'], content: content };
+        case 'NULL':
+        default:
+            return { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' };
+    }
+};
 
-        // events配列の各イベントを変換
-        return weekData.events.map(event => eventToCells(event));
-    };
+const groupWeeks = (data) => {
+    const weeks = [];
+    for (let i = 0; i < data.length; i += 7) {
+        weeks.push(data.slice(i, i + 7));
+    }
+    return weeks;
+};
 
 return (
-    <div 
-        ref={containerRef}
-        style={{ 
-            height: '80vh', 
-            overflowY: 'auto',
-            borderRadius: 20 
-        }}
-    >
-        {Array.isArray(calendarData) && calendarData.map((weekData, index) => (
-            <div key={index} style={{ paddingBottom: '20vh' }}>
-                <PageWeek data={weekDataToCells(weekData)} />
-            </div>
-        ))}
+    <div ref={containerRef} style={{ height: '80vh', overflowY: 'auto', borderRadius: 20 }}>
+        {Array.isArray(calendarData) && groupWeeks(calendarData).map((week, index) => {
+            const weekCells = week.map(weekData => weekData.events.map(event => eventToCells(event)));
+            return (
+                <div key={index} style={{ paddingBottom: '20vh' }}>
+                    <PageWeek data={weekCells} />
+                </div>
+            );
+        })}
     </div>
 );
 }

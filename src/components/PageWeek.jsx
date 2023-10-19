@@ -1,77 +1,67 @@
-import React, { Component } from "react";
-import Flicking from "@egjs/react-flicking";
+import { Component } from "react";
+import Flicking, { ViewportSlot } from "@egjs/react-flicking";
 import { Fade } from "@egjs/flicking-plugins";
+import {FrameGrid} from "@egjs/react-grid"
 import "@egjs/flicking-plugins/dist/arrow.css";
 import "@egjs/flicking-plugins/dist/pagination.css";
 import "@egjs/flicking-plugins/dist/flicking-plugins.css";
 
-import CalendarPage from './CalendarPage'
-import PopupMenu from './PopupMenu'
+import CalendarPage from './CalendarPage';
 
 export default class PageWeek extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      popupVisible: false,
-      selectedCell: null
-    };
-    this._plugins = [new Fade()];
-  }
-
-  setPopupVisible = (visible) => {
-    this.setState({ popupVisible: visible });
-  }
-
-  setSelectedCell = (cell) => {
-    this.setState({ selectedCell: cell });
-  }
-
-  handleCellClick = (rowIndex, cellIndex) => {
-    fetch('/process_cell_info', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ rowIndex, cellIndex }),
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      this.setSelectedCell({ rowIndex, cellIndex });
-      this.setPopupVisible(true);
-    })
-    .catch((error) => {
-      console.error('エラー:', error);
-    });
-  };
-
-  closePopup = () => {
-    this.setPopupVisible(false);
-  }
+  _plugins = [new Fade()];
 
   render() {
-    const formattedData = this.props.data || [];
-    const weeks = [];
+    console.log(this.props.data);
 
-    for (let i = 0; i < formattedData.length; i += 7) {
-      weeks.push(formattedData.slice(i, i + 7));
+    const calendarData = this.props.data;  // propsからcalendarDataを取得
+    if (!Array.isArray(calendarData)) {
+      console.error('calendarData is not an array:', calendarData);
+      return null;
     }
+    const groupWeeks = (data) => {
+      const weeks = [];
+      for (let i = 0; i < data.length; i += 7) {
+        weeks.push(data.slice(i, i + 7));
+      }
+      return weeks;
+    };
+
+    const splitData = (data) => {
+      const firstSegment = data.slice(0, 5); // 最初の5行
+      const secondSegment = data.slice(5, 7); // 次の2行
+  
+      // 転置する
+      const transposedFirstSegment = firstSegment[0].map((_, i) => firstSegment.map(row => row[i]));
+      const transposedSecondSegment = secondSegment[0].map((_, i) => secondSegment.map(row => row[i]));
+  
+      return [transposedFirstSegment, transposedSecondSegment];
+  };
+  
 
     return (
-      <>
-        {weeks.map((week, weekIndex) => (
-          <CalendarPage
-            key={weekIndex}
-            calendarData={week}
-            marginpx="2px"
-            handleDateClick={this.handleCellClick}
-            handleEventClick={this.handleCellClick}
-            handleContentChange={this.handleContentChange}
-            popupVisible={this.state.popupVisible}
-            closePopup={this.closePopup}
-          />
-        ))}
-        {this.state.popupVisible && <PopupMenu onClose={this.closePopup} onContentChange={this.handleContentChange} />}
-      </>
+      <Flicking plugins={this._plugins} circular={true}>
+        {groupWeeks(calendarData).map((weekData, pageIndex) => {
+          console.log(weekData);
+            const [firstSegment, secondSegment] = splitData(weekData);
+            return (
+              <>
+                <div style={{ width: '90%', padding: '0 5%' }}>
+                  <CalendarPage
+                      cells={firstSegment}
+                      // その他のprops...
+                  />
+                </div>
+                <div style={{ width: '90%', padding: '0 5%' }}>
+                  <CalendarPage
+                      cells={secondSegment}
+                      // その他のprops...
+                  />
+                </div>
+              </>
+            );
+        })}
+      </Flicking>
     );
   }
 }
