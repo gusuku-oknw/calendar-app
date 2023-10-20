@@ -72,6 +72,7 @@ const GlobalMenu = () => {
             zIndex: 999,
         }
     };
+
   return (
     <div style={styles.globalMenu}>
       <ul style={styles.ul}>

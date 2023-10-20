@@ -3,6 +3,7 @@
 import React, { useEffect, useState }  from 'react';
 import { AiFillHome, AiFillSchedule, AiFillSetting } from "react-icons/ai"
 import ScheduleCalendar from './ScheduleCalendar.jsx'
+import Home from './Home'
 
 const GlobalMenu = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -73,13 +74,13 @@ const GlobalMenu = () => {
             zIndex: 999,
         }
     };
-  return (
+      return (
     <div style={styles.globalMenu}>
       <ul style={styles.ul}>
         <li>
           <a href="/" style={styles.menuItem}>
             <AiFillHome style={styles.menuIcon} />
-            <span onClick={() => handleTabClick('ScheduleCalendar')}>
+            <span onClick={() => handleTabClick('Home')}>
                 Home
             </span>
           </a>
@@ -100,7 +101,8 @@ const GlobalMenu = () => {
         </li>
         {/* 他のメニューアイテムも同様に追加 */}
       </ul>
-      {activeTab === 'ScheduleCalendar' && <ScheduleCalendar style={styles.overlay} />}
+        {activeTab === 'ScheduleCalendar' && <ScheduleCalendar style={styles.overlay} />}
+        {activeTab === 'Home' && <Home style={styles.overlay} />}
     </div>
   );
 };

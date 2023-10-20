@@ -8,115 +8,82 @@ import PageWeek from './PageWeek';
 // import './ScheduleCalendar.css'
 
 const CONTENT_COLOR_MAP = {
-    '講義': '#E65032',
+    '講義': 'rgba(230,80,50,0.95)',
     '2any': '#2B5B75',
     'wish': '#5C8195',
-    'NULL': '#A8A7A7'
+    'NULL': '#d7d7d7'
   };
-// const defaultCalendarData = [
-//     // 1ページ目のデータ
-//     [
-//     [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['2any'], content: '2any' }, { type: 'wish', content: 'wish' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//     [{ type: 'wish', content: 'wish' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['2any'], content: '2any' }, { color: CONTENT_COLOR_MAP['2any'], content: '2any' }, { type: 'wish', content: 'wish' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//     [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { type: 'wish', content: 'wish' }, { color: CONTENT_COLOR_MAP['2any'], content: '2any' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//     [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { type: 'wish', content: 'wish'}],
-//     [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//     // [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//     // [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//     ],
-//     // 2ページ目のデータ
-//     [
-//         [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         [{ color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['2any'], content: '2any' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         [{ color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['2any'], content: '2any' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         // [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         // [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         ],
-//     // 3ページ目のデータ
-//     [
-//         [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         [{ color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['2any'], content: '2any' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         [{ color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['2any'], content: '2any' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         // [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         // [{ color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['講義'], content: '講義' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }, { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' }],
-//         ],
-//     ];
-
 
 const defaultCalendarData = [
     // 1ページ目のデータ
     {
-        date: "2023-10-18",
+        day: "2023-10-18",
         events: 
             [{type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: '2any', content: '2any' }, { type: 'wish', content: 'wish' }, { type: '講義', content: '講義' }
         ]
     },{
-        date: "2023-10-19",
+        day: "2023-10-19",
         events:[{ type: 'wish', content: 'wish' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: '2any', content: '2any' }, { type: '2any', content: '2any' }
         ]
     },{
-        date: "2023-10-20",
+        day: "2023-10-20",
         events: 
             [{ type: '講義', content: '講義' }, { type: 'wish', content: 'wish' }, { type: '2any', content: '2any' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }
         ]
     },{
-        date: "2023-10-21",
+        day: "2023-10-21",
         events: 
             [{ type: '講義', content: '講義' }, { type: 'NULL' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }
         ]
     },{
-        date: "2023-10-22",
+        day: "2023-10-22",
         events: 
             [{ type: '講義', content: '講義' }, { type: 'NULL' }, { type: '講義', content: '講義' }, { type: 'NULL' }, { type: '講義', content: '講義' }
         ]
     },{
-        date: "2023-10-23",
+        day: "2023-10-23",
         events: 
-            [{ type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: 'NULL' }, { type: 'NULL' }, { type: 'NULL' }
+            [{ type: 'wish', content: 'wish' }, { type: 'wish', content: 'wish' }, { type: 'NULL' }, { type: 'NULL' }, { type: 'NULL' }
         ]
     },{
-        date: "2023-10-24",
+        day: "2023-10-24",
         events: 
-            [{ type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: 'NULL' }, { type: 'NULL' }, { type: 'NULL' }
+            [{ type: 'wish', content: 'wish' }, { type: 'wish', content: 'wish' }, { type: 'NULL' }, { type: 'NULL' }, { type: 'NULL' }
         ]
     },
 
     {
-        date: "2023-10-25",
+        day: "2023-10-25",
         events: 
             [{type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: '2any', content: '2any' }, { type: 'wish', content: 'wish' }, { type: '講義', content: '講義' }
         ]
     },{
-        date: "2023-10-26",
+        day: "2023-10-26",
         events:
             [{ type: 'wish', content: 'wish' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: '2any', content: '2any' }, { type: '2any', content: '2any' }
         ]
     },{
-        date: "2023-10-27",
+        day: "2023-10-27",
         events: 
             [{ type: '講義', content: '講義' }, { type: 'wish', content: 'wish' }, { type: '2any', content: '2any' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }
         ]
     },{
-        date: "2023-10-28",
+        day: "2023-10-28",
         events: 
             [{ type: '講義', content: '講義' }, { type: 'NULL' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }
         ]
     },{
-        date: "2023-10-29",
+        day: "2023-10-29",
         events: 
             [{ type: '講義', content: '講義' }, { type: 'NULL' }, { type: '講義', content: '講義' }, { type: 'NULL' }, { type: '講義', content: '講義' }
         ]
     },{
-        date: "2023-10-30",
+        day: "2023-10-30",
         events: 
             [{ type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: 'NULL' }, { type: 'NULL' }, { type: 'NULL' }
         ]
     },{
-        date: "2023-10-31",
+        day: "2023-10-31",
         events: 
             [{ type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: 'NULL' }, { type: 'NULL' }, { type: 'NULL' }
         ]
@@ -126,7 +93,7 @@ const defaultCalendarData = [
     const ScheduleCalendar = () => {
         const [calendarData, setCalendarData] = useState([]);
         const containerRef = useRef(null);
-    
+
         useEffect(() => {
             async function fetchData() {
                 try {
@@ -143,40 +110,49 @@ const defaultCalendarData = [
         }, []);
     // イベントをカレンダーセル情報に変換するヘルパー関数
     const eventToCells = (event) => {
-    const content = event.content || event.type;
-    switch (event.type) {
-        case '講義':
-            return { color: CONTENT_COLOR_MAP['講義'], content: content };
-        case 'wish':
-            return { color: CONTENT_COLOR_MAP['wish'], content: content };
-        case '2any':
-            return { color: CONTENT_COLOR_MAP['2any'], content: content };
-        case 'NULL':
-        default:
-            return { color: CONTENT_COLOR_MAP['NULL'], content: 'NULL' };
-    }
-};
+        const content = event.content || event.type;
+        switch (event.type) {
+            case '講義':
+                return { content: content, color: CONTENT_COLOR_MAP['講義'], styles: 'low' };
+            case 'wish':
+                return { content: content, color: CONTENT_COLOR_MAP['wish'], styles: 'middle' };
+            case '2any':
+                return { content: content, color: CONTENT_COLOR_MAP['2any'], styles: 'high'};
+            case 'NULL':
+            default:
+                return { content: 'NULL', color: CONTENT_COLOR_MAP['NULL'], styles: ''};
+        }
+    };
 
-const groupWeeks = (data) => {
-    const weeks = [];
-    for (let i = 0; i < data.length; i += 7) {
-        weeks.push(data.slice(i, i + 7));
-    }
-    return weeks;
-};
+    const groupWeeks = (data) => {
+        const weeks = [];
+        for (let i = 0; i < data.length; i += 7) {
+            weeks.push(data.slice(i, i + 7));
+        }
+        return weeks;
+    };
+    return (
+        <div ref={containerRef} style={{ height: '75vh', overflowY: 'auto', borderRadius: 20 }}>
+            {Array.isArray(calendarData) && groupWeeks(calendarData).map((week, index) => {
 
-return (
-    <div ref={containerRef} style={{ height: '80vh', overflowY: 'auto', borderRadius: 20 }}>
-        {Array.isArray(calendarData) && groupWeeks(calendarData).map((week, index) => {
-            const weekCells = week.map(weekData => weekData.events.map(event => eventToCells(event)));
-            return (
-                <div key={index} style={{ paddingBottom: '20vh' }}>
-                    <PageWeek data={weekCells} />
-                </div>
-            );
-        })}
-    </div>
-);
+                // Extract events for the week
+                const weekCells = week.map(weekData =>
+                    (weekData.events || []).map(event => eventToCells(event))
+                );
+                // console.log('Inspecting weekData:', weekCells, 'Is Array:');
+
+                // Extract weekdays for the week
+                const weekDays = week.map(weekData => weekData.day);
+                // console.log('Inspecting weekData:', weekDays, 'Is Array:');
+
+                return (
+                    <div key={index} style={{ paddingBottom: '20vh' }}>
+                        <PageWeek data={weekCells} day={weekDays} />
+                    </div>
+                );
+            })}
+        </div>
+    );
 }
 
 export default ScheduleCalendar;
