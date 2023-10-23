@@ -2,6 +2,7 @@
   "name": "calendar-app",
   "version": "0.1.1",
   "private": true,
+  "proxy": "http://127.0.0.1:5000",
   "dependencies": {
     "@egjs/flicking-plugins": "^4.7.1",
     "@egjs/grid": "^1.14.2",
@@ -38,5 +39,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  }  
 }

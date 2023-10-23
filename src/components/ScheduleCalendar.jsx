@@ -18,7 +18,7 @@ const defaultCalendarData = [
     // 1ページ目のデータ
     {
         day: "2023-10-18",
-        events: 
+        events:
             [{type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: '2any', content: '2any' }, { type: 'wish', content: 'wish' }, { type: '講義', content: '講義' }
         ]
     },{
@@ -27,34 +27,34 @@ const defaultCalendarData = [
         ]
     },{
         day: "2023-10-20",
-        events: 
+        events:
             [{ type: '講義', content: '講義' }, { type: 'wish', content: 'wish' }, { type: '2any', content: '2any' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }
         ]
     },{
         day: "2023-10-21",
-        events: 
+        events:
             [{ type: '講義', content: '講義' }, { type: 'NULL' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }
         ]
     },{
         day: "2023-10-22",
-        events: 
+        events:
             [{ type: '講義', content: '講義' }, { type: 'NULL' }, { type: '講義', content: '講義' }, { type: 'NULL' }, { type: '講義', content: '講義' }
         ]
     },{
         day: "2023-10-23",
-        events: 
+        events:
             [{ type: 'wish', content: 'wish' }, { type: 'wish', content: 'wish' }, { type: 'NULL' }, { type: 'NULL' }, { type: 'NULL' }
         ]
     },{
         day: "2023-10-24",
-        events: 
+        events:
             [{ type: 'wish', content: 'wish' }, { type: 'wish', content: 'wish' }, { type: 'NULL' }, { type: 'NULL' }, { type: 'NULL' }
         ]
     },
 
     {
         day: "2023-10-25",
-        events: 
+        events:
             [{type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: '2any', content: '2any' }, { type: 'wish', content: 'wish' }, { type: '講義', content: '講義' }
         ]
     },{
@@ -64,29 +64,39 @@ const defaultCalendarData = [
         ]
     },{
         day: "2023-10-27",
-        events: 
+        events:
             [{ type: '講義', content: '講義' }, { type: 'wish', content: 'wish' }, { type: '2any', content: '2any' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }
         ]
     },{
         day: "2023-10-28",
-        events: 
+        events:
             [{ type: '講義', content: '講義' }, { type: 'NULL' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: '講義', content: '講義' }
         ]
     },{
         day: "2023-10-29",
-        events: 
+        events:
             [{ type: '講義', content: '講義' }, { type: 'NULL' }, { type: '講義', content: '講義' }, { type: 'NULL' }, { type: '講義', content: '講義' }
         ]
     },{
         day: "2023-10-30",
-        events: 
+        events:
             [{ type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: 'NULL' }, { type: 'NULL' }, { type: 'NULL' }
         ]
     },{
         day: "2023-10-31",
-        events: 
+        events:
             [{ type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: 'NULL' }, { type: 'NULL' }, { type: 'NULL' }
         ]
+    },{
+        day: "2023-11-1",
+        events:
+            [{ type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: 'NULL' }, { type: 'NULL' }, { type: 'NULL' }
+            ]
+    },{
+        day: "2023-11-2",
+        events:
+            [{ type: '講義', content: '講義' }, { type: '講義', content: '講義' }, { type: 'NULL' }, { type: 'NULL' }, { type: 'NULL' }
+            ]
     },
     ]
 
@@ -97,9 +107,13 @@ const defaultCalendarData = [
         useEffect(() => {
             async function fetchData() {
                 try {
-                    const response = await fetch('バックエンドのURL');
-                    if (!response.ok) throw new Error('Network response was not ok');
+                    const response = await fetch('http://127.0.0.1:5000/get_calendar_data');
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
                     const data = await response.json();
+                    console.log(data);
+
                     setCalendarData(data);
                 } catch (error) {
                     console.error("データの取得中にエラーが発生しました:", error);
